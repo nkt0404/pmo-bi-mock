@@ -10,45 +10,57 @@ import {
   Award,
   BarChart3,
   Briefcase,
-  Zap
+  Zap,
+  GitBranch,
+  Users,
+  BookOpen,
+  Network,
+  FileCheck,
+  Settings,
+  Brain,
+  Link,
+  Calendar,
+  Activity,
+  Shield,
+  DollarSign,
+  CheckCircle
 } from 'lucide-react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const PfMPage: React.FC = () => {
-  // タブ管理
-  const [activeTab, setActiveTab] = useState<'executive' | 'portfolio'>('executive');
+  // タブ管理 - PgMOの5つの実現目標に基づく構成
+  const [activeTab, setActiveTab] = useState<'strategic-alignment' | 'project-dependencies' | 'stagegate' | 'resource-optimization' | 'knowledge-learning'>('strategic-alignment');
 
-  // CIO視点のサマリーデータ
-  const executiveMetrics = [
-    {
-      title: 'ポートフォリオROI',
-      value: '285%',
-      trend: 12,
-      icon: TrendingUp,
-      color: 'green'
+  // PgMOの5つの実現目標データ
+  const pgmoMetrics = {
+    strategicAlignment: {
+      title: '戦略目標との整合性（縦の整合）',
+      subtitle: '目標達成による効果最大化',
+      kpis: [
+        { name: '戦略整合率', current: 92, target: 90, unit: '%', trend: 'up', description: '各プロジェクトの戦略目標との整合度' },
+        { name: 'ベネフィット実現率', current: 78, target: 85, unit: '%', trend: 'stable', description: 'プロジェクトで創出されたベネフィット' },
+        { name: 'バリュー創出指数', current: 85, target: 80, unit: 'pt', trend: 'up', description: 'ベネフィットが実際の事業価値に転換された指標' },
+        { name: 'TCO最適化率', current: 94, target: 90, unit: '%', trend: 'up', description: 'プログラム全体のTCO最適化度' }
+      ],
+      projects: [
+        { name: 'AI・データ活用基盤', alignment: 95, benefit: 88, value: 92, risk: 'low' },
+        { name: 'クラウド移行PJ', alignment: 98, benefit: 85, value: 89, risk: 'low' },
+        { name: '新基幹システム刷新', alignment: 87, benefit: 75, value: 82, risk: 'medium' },
+        { name: 'セキュリティ強化PJ', alignment: 93, benefit: 70, value: 78, risk: 'low' },
+        { name: 'モバイルアプリ開発', alignment: 89, benefit: 72, value: 85, risk: 'medium' }
+      ]
     },
-    {
-      title: 'ビジネス価値',
-      value: '¥8.0B',
-      trend: 8,
-      icon: Target,
-      color: 'blue'
-    },
-    {
-      title: 'リスク管理スコア',
-      value: '95%',
-      trend: 5,
-      icon: Award,
-      color: 'green'
-    },
-    {
-      title: 'イノベーション指数',
-      value: '142pt',
-      trend: -2,
-      icon: BarChart3,
-      color: 'yellow'
+    projectDependencies: {
+      title: 'プロジェクト間関係の整理（横の整合）',
+      subtitle: '目標達成による効果最大化',
+      dependencies: [
+        { from: 'AI・データ活用基盤', to: '新基幹システム刷新', type: 'データ連携', priority: 'high', status: 'active' },
+        { from: 'クラウド移行PJ', to: 'セキュリティ強化PJ', type: 'インフラ共有', priority: 'high', status: 'active' },
+        { from: '新基幹システム刷新', to: 'モバイルアプリ開発', type: 'API提供', priority: 'medium', status: 'planned' },
+        { from: 'AI・データ活用基盤', to: 'モバイルアプリ開発', type: '分析機能', priority: 'medium', status: 'planned' }
+      ]
     }
-  ];
+  };
 
   const strategicInitiatives = [
     {
@@ -284,73 +296,190 @@ const PfMPage: React.FC = () => {
       <main className="p-8">
         <div className="max-w-none mx-auto">
           {/* タブナビゲーション */}
-          <div className="flex space-x-1 mb-8 bg-gray-100 p-1 rounded-lg">
+          {/* PgMO 5つの実現目標タブナビゲーション */}
+          <div className="grid grid-cols-5 gap-2 mb-8 bg-gray-100 p-2 rounded-lg">
             <button
-              onClick={() => setActiveTab('executive')}
-              className={`px-6 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'executive'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+              onClick={() => setActiveTab('strategic-alignment')}
+              className={`px-4 py-3 rounded-md font-medium transition-all text-center ${
+                activeTab === 'strategic-alignment'
+                  ? 'bg-white text-blue-600 shadow-sm scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
-              <div className="flex items-center">
-                <Building className="w-5 h-5 mr-2" />
-                エグゼクティブサマリー
+              <div className="flex flex-col items-center">
+                <Target className="w-5 h-5 mb-1" />
+                <span className="text-xs">戦略整合</span>
               </div>
             </button>
             <button
-              onClick={() => setActiveTab('portfolio')}
-              className={`px-6 py-3 rounded-md font-medium transition-colors ${
-                activeTab === 'portfolio'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+              onClick={() => setActiveTab('project-dependencies')}
+              className={`px-4 py-3 rounded-md font-medium transition-all text-center ${
+                activeTab === 'project-dependencies'
+                  ? 'bg-white text-blue-600 shadow-sm scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
-              <div className="flex items-center">
-                <Briefcase className="w-5 h-5 mr-2" />
-                ポートフォリオ管理
+              <div className="flex flex-col items-center">
+                <GitBranch className="w-5 h-5 mb-1" />
+                <span className="text-xs">横断管理</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('stagegate')}
+              className={`px-4 py-3 rounded-md font-medium transition-all text-center ${
+                activeTab === 'stagegate'
+                  ? 'bg-white text-blue-600 shadow-sm scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex flex-col items-center">
+                <FileCheck className="w-5 h-5 mb-1" />
+                <span className="text-xs">ゲート管理</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('resource-optimization')}
+              className={`px-4 py-3 rounded-md font-medium transition-all text-center ${
+                activeTab === 'resource-optimization'
+                  ? 'bg-white text-blue-600 shadow-sm scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex flex-col items-center">
+                <Users className="w-5 h-5 mb-1" />
+                <span className="text-xs">リソース最適</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('knowledge-learning')}
+              className={`px-4 py-3 rounded-md font-medium transition-all text-center ${
+                activeTab === 'knowledge-learning'
+                  ? 'bg-white text-blue-600 shadow-sm scale-105'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex flex-col items-center">
+                <Brain className="w-5 h-5 mb-1" />
+                <span className="text-xs">ナレッジ共有</span>
               </div>
             </button>
           </div>
 
-          {/* エグゼクティブサマリータブ */}
-          {activeTab === 'executive' && (
+          {/* 戦略整合性タブ */}
+          {activeTab === 'strategic-alignment' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              {/* Key Metrics */}
+              {/* 戦略整合性ヘッダー */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-4">
+                  <Target className="w-6 h-6 mr-3 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">{pgmoMetrics.strategicAlignment.title}</h2>
+                    <p className="text-gray-600">{pgmoMetrics.strategicAlignment.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 戦略整合性KPI */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                {executiveMetrics.map((metric, index) => {
-                  const IconComponent = metric.icon;
-                  return (
+                {pgmoMetrics.strategicAlignment.kpis.map((kpi, index) => (
+                  <motion.div
+                    key={kpi.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-all duration-300"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        kpi.current >= kpi.target ? 'bg-green-100 text-green-800' :
+                        kpi.current >= kpi.target * 0.9 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {kpi.trend === 'up' ? '↗' : kpi.trend === 'down' ? '↘' : '→'}
+                      </div>
+                      <div className="text-xs text-gray-500">目標: {kpi.target}{kpi.unit}</div>
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                      {kpi.current}{kpi.unit}
+                    </div>
+                    <div className="text-sm font-medium text-gray-900 mb-1">
+                      {kpi.name}
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      {kpi.description}
+                    </div>
+                    <div className="mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${
+                            kpi.current >= kpi.target ? 'bg-green-500' :
+                            kpi.current >= kpi.target * 0.9 ? 'bg-yellow-500' :
+                            'bg-red-500'
+                          }`}
+                          style={{ width: `${Math.min(100, (kpi.current / kpi.target) * 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* プロジェクト別戦略整合性 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                  プロジェクト別戦略整合性分析
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.strategicAlignment.projects.map((project, index) => (
                     <motion.div
-                      key={metric.title}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      key={project.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-all duration-300"
+                      className="border border-gray-200 rounded-lg p-4"
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <IconComponent className={`w-5 h-5 ${
-                          metric.color === 'green' ? 'text-green-600' :
-                          metric.color === 'blue' ? 'text-blue-600' :
-                          metric.color === 'yellow' ? 'text-yellow-600' : 'text-purple-600'
-                        }`} />
-                        <div className={`flex items-center text-xs ${
-                          metric.trend > 0 ? 'text-green-600' : 'text-red-600'
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">{project.name}</h4>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          project.risk === 'low' ? 'bg-green-100 text-green-800' :
+                          project.risk === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
                         }`}>
-                          {metric.trend > 0 ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
-                          {Math.abs(metric.trend)}%
+                          {project.risk === 'low' ? 'Low Risk' : project.risk === 'medium' ? 'Medium Risk' : 'High Risk'}
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">{metric.value}</div>
-                      <div className="text-xs text-gray-500">{metric.title}</div>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <div className="text-xs text-gray-600 mb-1">戦略整合率</div>
+                          <div className="text-lg font-bold text-gray-900">{project.alignment}%</div>
+                          <div className="w-full bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${project.alignment}%` }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-600 mb-1">ベネフィット実現</div>
+                          <div className="text-lg font-bold text-gray-900">{project.benefit}%</div>
+                          <div className="w-full bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${project.benefit}%` }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-600 mb-1">バリュー創出</div>
+                          <div className="text-lg font-bold text-gray-900">{project.value}%</div>
+                          <div className="w-full bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: `${project.value}%` }} />
+                          </div>
+                        </div>
+                      </div>
                     </motion.div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
 
               {/* Strategic Initiatives */}
