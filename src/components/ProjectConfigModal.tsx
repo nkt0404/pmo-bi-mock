@@ -19,6 +19,11 @@ interface ProjectConfig {
   documentTypes: string[];
   taskTool: string;
   mcpEndpoint: string;
+  folderPaths: {
+    documents: string;
+    reports: string;
+    assets: string;
+  };
   status: 'configured' | 'partial' | 'not-configured';
 }
 
@@ -82,6 +87,11 @@ const ProjectConfigModal: React.FC<ProjectConfigModalProps> = ({
         documentTypes: [],
         taskTool: '',
         mcpEndpoint: '',
+        folderPaths: {
+          documents: '',
+          reports: '',
+          assets: ''
+        },
         status: 'not-configured'
       });
       setSelectedDocTypes([]);
@@ -123,10 +133,11 @@ const ProjectConfigModal: React.FC<ProjectConfigModalProps> = ({
     const hasDocTypes = selectedDocTypes.length > 0;
     const hasTaskTool = !!config.taskTool;
     const hasMcpEndpoint = !!customMcpEndpoint;
+    const hasFolderPaths = !!(config.folderPaths?.documents || config.folderPaths?.reports || config.folderPaths?.assets);
 
-    const configuredItems = [hasCloudApp, hasDocTypes, hasTaskTool, hasMcpEndpoint].filter(Boolean).length;
+    const configuredItems = [hasCloudApp, hasDocTypes, hasTaskTool, hasMcpEndpoint, hasFolderPaths].filter(Boolean).length;
 
-    if (configuredItems === 4) return 'configured';
+    if (configuredItems === 5) return 'configured';
     if (configuredItems > 0) return 'partial';
     return 'not-configured';
   };
@@ -297,6 +308,136 @@ const ProjectConfigModal: React.FC<ProjectConfigModalProps> = ({
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   AI エージェントが使用するMCP（Model Context Protocol）エンドポイントを指定してください
+                </p>
+              </div>
+
+              {/* フォルダパス設定 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-4">
+                  <FolderOpen className="w-4 h-4 inline mr-2" />
+                  フォルダパス設定
+                </label>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-2">
+                      📄 ドキュメントフォルダ
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={config?.folderPaths?.documents || ''}
+                        onChange={(e) => setConfig({
+                          ...config!,
+                          folderPaths: {
+                            ...config!.folderPaths,
+                            documents: e.target.value
+                          }
+                        })}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                        placeholder="/project/documents"
+                      />
+                      <button
+                        type="button"
+                        className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                        onClick={() => {
+                          // フォルダ選択ダイアログをシミュレート
+                          const folder = prompt('ドキュメントフォルダパスを入力:', config?.folderPaths?.documents || '');
+                          if (folder !== null) {
+                            setConfig({
+                              ...config!,
+                              folderPaths: {
+                                ...config!.folderPaths,
+                                documents: folder
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        📁 選択
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-2">
+                      📊 レポートフォルダ
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={config?.folderPaths?.reports || ''}
+                        onChange={(e) => setConfig({
+                          ...config!,
+                          folderPaths: {
+                            ...config!.folderPaths,
+                            reports: e.target.value
+                          }
+                        })}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                        placeholder="/project/reports"
+                      />
+                      <button
+                        type="button"
+                        className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                        onClick={() => {
+                          const folder = prompt('レポートフォルダパスを入力:', config?.folderPaths?.reports || '');
+                          if (folder !== null) {
+                            setConfig({
+                              ...config!,
+                              folderPaths: {
+                                ...config!.folderPaths,
+                                reports: folder
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        📁 選択
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-2">
+                      📦 成果物・アセットフォルダ
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={config?.folderPaths?.assets || ''}
+                        onChange={(e) => setConfig({
+                          ...config!,
+                          folderPaths: {
+                            ...config!.folderPaths,
+                            assets: e.target.value
+                          }
+                        })}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                        placeholder="/project/assets"
+                      />
+                      <button
+                        type="button"
+                        className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                        onClick={() => {
+                          const folder = prompt('アセットフォルダパスを入力:', config?.folderPaths?.assets || '');
+                          if (folder !== null) {
+                            setConfig({
+                              ...config!,
+                              folderPaths: {
+                                ...config!.folderPaths,
+                                assets: folder
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        📁 選択
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  AIエージェントがアクセスするクラウドストレージのフォルダパスを指定してください
                 </p>
               </div>
             </div>

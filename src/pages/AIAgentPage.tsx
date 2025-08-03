@@ -21,6 +21,11 @@ interface ProjectConfig {
   documentTypes: string[];
   taskTool: string;
   mcpEndpoint: string;
+  folderPaths: {
+    documents: string;
+    reports: string;
+    assets: string;
+  };
   status: 'configured' | 'partial' | 'not-configured';
 }
 
@@ -38,6 +43,11 @@ const AIAgentPage: React.FC = () => {
       documentTypes: ['プロジェクト計画書', 'WBS', 'リスク管理表'],
       taskTool: 'JIRA',
       mcpEndpoint: 'https://api.project001.com/mcp',
+      folderPaths: {
+        documents: '/プロジェクト/新基幹システム/ドキュメント',
+        reports: '/プロジェクト/新基幹システム/レポート',
+        assets: '/プロジェクト/新基幹システム/成果物'
+      },
       status: 'configured'
     },
     {
@@ -47,6 +57,11 @@ const AIAgentPage: React.FC = () => {
       documentTypes: ['テスト計画書', '課題管理表'],
       taskTool: 'Notion',
       mcpEndpoint: '',
+      folderPaths: {
+        documents: '/CloudMigration/Documents',
+        reports: '/CloudMigration/Reports',
+        assets: ''
+      },
       status: 'partial'
     },
     {
@@ -56,6 +71,11 @@ const AIAgentPage: React.FC = () => {
       documentTypes: ['プロジェクト計画書', '変更管理表'],
       taskTool: 'Backlog',
       mcpEndpoint: 'https://api.project003.com/mcp',
+      folderPaths: {
+        documents: '/DataPlatform/設計書',
+        reports: '/DataPlatform/分析レポート',
+        assets: '/DataPlatform/データセット'
+      },
       status: 'configured'
     },
     {
@@ -65,6 +85,11 @@ const AIAgentPage: React.FC = () => {
       documentTypes: ['課題管理表'],
       taskTool: '',
       mcpEndpoint: '',
+      folderPaths: {
+        documents: '/Security/Documents',
+        reports: '',
+        assets: ''
+      },
       status: 'partial'
     },
     {
@@ -74,6 +99,11 @@ const AIAgentPage: React.FC = () => {
       documentTypes: [],
       taskTool: '',
       mcpEndpoint: '',
+      folderPaths: {
+        documents: '',
+        reports: '',
+        assets: ''
+      },
       status: 'not-configured'
     }
   ]);

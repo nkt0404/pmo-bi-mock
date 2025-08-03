@@ -14,6 +14,7 @@ import {
   Activity,
   DollarSign
 } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const PfMPage: React.FC = () => {
   // タブ管理 - PgMOの5つの実現目標に基づく構成
@@ -31,11 +32,106 @@ const PfMPage: React.FC = () => {
         { name: 'TCO最適化率', current: 94, target: 90, unit: '%', trend: 'up', description: 'プログラム全体のTCO最適化度' }
       ],
       projects: [
-        { name: 'AI・データ活用基盤', alignment: 95, benefit: 88, value: 92, risk: 'low' },
-        { name: 'クラウド移行PJ', alignment: 98, benefit: 85, value: 89, risk: 'low' },
-        { name: '新基幹システム刷新', alignment: 87, benefit: 75, value: 82, risk: 'medium' },
-        { name: 'セキュリティ強化PJ', alignment: 93, benefit: 70, value: 78, risk: 'low' },
-        { name: 'モバイルアプリ開発', alignment: 89, benefit: 72, value: 85, risk: 'medium' }
+        { 
+          name: 'AI・データ活用基盤', 
+          alignment: 95, 
+          benefit: 88, 
+          value: 92, 
+          risk: 'low',
+          purpose: 'データドリブン経営の実現とAI活用による競争優位性確立',
+          objectives: ['予測分析精度95%以上', 'データ処理時間50%短縮', 'AI機能による売上10%向上'],
+          plannedROI: 440,
+          actualROI: 385,
+          roiHistory: [
+            { month: '2024-01', planned: 50, actual: 45 },
+            { month: '2024-02', planned: 120, actual: 98 },
+            { month: '2024-03', planned: 200, actual: 165 },
+            { month: '2024-04', planned: 280, actual: 245 },
+            { month: '2024-05', planned: 340, actual: 305 },
+            { month: '2024-06', planned: 400, actual: 355 },
+            { month: '2024-07', planned: 440, actual: 385 }
+          ]
+        },
+        { 
+          name: 'クラウド移行PJ', 
+          alignment: 98, 
+          benefit: 85, 
+          value: 89, 
+          risk: 'low',
+          purpose: 'インフラ運用コスト削減とスケーラビリティ向上',
+          objectives: ['運用コスト30%削減', 'システム可用性99.9%', 'デプロイ時間80%短縮'],
+          plannedROI: 320,
+          actualROI: 315,
+          roiHistory: [
+            { month: '2024-01', planned: 40, actual: 42 },
+            { month: '2024-02', planned: 95, actual: 88 },
+            { month: '2024-03', planned: 150, actual: 145 },
+            { month: '2024-04', planned: 200, actual: 198 },
+            { month: '2024-05', planned: 250, actual: 248 },
+            { month: '2024-06', planned: 290, actual: 285 },
+            { month: '2024-07', planned: 320, actual: 315 }
+          ]
+        },
+        { 
+          name: '新基幹システム刷新', 
+          alignment: 87, 
+          benefit: 75, 
+          value: 82, 
+          risk: 'medium',
+          purpose: '業務効率化と統合データ管理による生産性向上',
+          objectives: ['業務処理時間40%短縮', 'データ連携自動化', '月次決算日数5日短縮'],
+          plannedROI: 280,
+          actualROI: 220,
+          roiHistory: [
+            { month: '2024-01', planned: 20, actual: 15 },
+            { month: '2024-02', planned: 60, actual: 45 },
+            { month: '2024-03', planned: 110, actual: 85 },
+            { month: '2024-04', planned: 160, actual: 125 },
+            { month: '2024-05', planned: 200, actual: 165 },
+            { month: '2024-06', planned: 240, actual: 195 },
+            { month: '2024-07', planned: 280, actual: 220 }
+          ]
+        },
+        { 
+          name: 'セキュリティ強化PJ', 
+          alignment: 93, 
+          benefit: 70, 
+          value: 78, 
+          risk: 'low',
+          purpose: 'サイバーセキュリティリスク軽減と法規制遵守',
+          objectives: ['セキュリティインシデント0件', 'GDPR完全準拠', '脆弱性検出100%'],
+          plannedROI: 180,
+          actualROI: 175,
+          roiHistory: [
+            { month: '2024-01', planned: 15, actual: 18 },
+            { month: '2024-02', planned: 35, actual: 38 },
+            { month: '2024-03', planned: 60, actual: 62 },
+            { month: '2024-04', planned: 90, actual: 88 },
+            { month: '2024-05', planned: 120, actual: 118 },
+            { month: '2024-06', planned: 150, actual: 148 },
+            { month: '2024-07', planned: 180, actual: 175 }
+          ]
+        },
+        { 
+          name: 'モバイルアプリ開発', 
+          alignment: 89, 
+          benefit: 72, 
+          value: 85, 
+          risk: 'medium',
+          purpose: '顧客体験向上とデジタル接点強化',
+          objectives: ['MAU 50万人達成', 'アプリ経由売上20%', '顧客満足度4.5以上'],
+          plannedROI: 250,
+          actualROI: 195,
+          roiHistory: [
+            { month: '2024-01', planned: 10, actual: 8 },
+            { month: '2024-02', planned: 35, actual: 28 },
+            { month: '2024-03', planned: 70, actual: 55 },
+            { month: '2024-04', planned: 110, actual: 88 },
+            { month: '2024-05', planned: 150, actual: 125 },
+            { month: '2024-06', planned: 200, actual: 160 },
+            { month: '2024-07', planned: 250, actual: 195 }
+          ]
+        }
       ]
     },
     projectDependencies: {
@@ -241,31 +337,119 @@ const PfMPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* プロジェクト別戦略整合性 */}
+              {/* プロジェクト別戦略整合性分析 */}
               <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
                   <Activity className="w-5 h-5 mr-2 text-blue-600" />
                   プロジェクト別戦略整合性分析
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {pgmoMetrics.strategicAlignment.projects.map((project, index) => (
                     <motion.div
                       key={project.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="border border-gray-200 rounded-lg p-4"
+                      className="border border-gray-200 rounded-lg p-6"
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-gray-900">{project.name}</h4>
-                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          project.risk === 'low' ? 'bg-green-100 text-green-800' :
-                          project.risk === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
-                          {project.risk === 'low' ? 'Low Risk' : project.risk === 'medium' ? 'Medium Risk' : 'High Risk'}
+                      {/* プロジェクトヘッダー */}
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-lg font-medium text-gray-900">{project.name}</h4>
+                        <div className="flex items-center space-x-3">
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            project.risk === 'low' ? 'bg-green-100 text-green-800' :
+                            project.risk === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {project.risk === 'low' ? 'Low Risk' : project.risk === 'medium' ? 'Medium Risk' : 'High Risk'}
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm text-gray-600">予定ROI:</span>
+                            <span className="text-lg font-bold text-blue-600">{project.plannedROI}%</span>
+                            <span className="text-sm text-gray-600">実績ROI:</span>
+                            <span className={`text-lg font-bold ${
+                              project.actualROI >= project.plannedROI * 0.9 ? 'text-green-600' : 
+                              project.actualROI >= project.plannedROI * 0.8 ? 'text-yellow-600' : 'text-red-600'
+                            }`}>
+                              {project.actualROI}%
+                            </span>
+                          </div>
                         </div>
                       </div>
+
+                      {/* プロジェクト目的・目標 */}
+                      <div className="mb-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <div>
+                            <h5 className="text-sm font-medium text-gray-900 mb-2">プロジェクト目的</h5>
+                            <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded border border-blue-200">
+                              {project.purpose}
+                            </p>
+                          </div>
+                          <div>
+                            <h5 className="text-sm font-medium text-gray-900 mb-2">主要目標</h5>
+                            <ul className="space-y-1">
+                              {project.objectives.map((objective, idx) => (
+                                <li key={idx} className="text-sm text-gray-700 bg-green-50 p-2 rounded border border-green-200 flex items-center">
+                                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                  {objective}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* ROI推移グラフ */}
+                      <div className="mb-6">
+                        <h5 className="text-sm font-medium text-gray-900 mb-3">ROI推移（予実比較）</h5>
+                        <div className="h-64 w-full bg-gray-50 p-4 rounded border">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={project.roiHistory}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis 
+                                dataKey="month" 
+                                tick={{fontSize: 11}}
+                                tickFormatter={(value) => value.substring(5)}
+                              />
+                              <YAxis 
+                                tick={{fontSize: 11}}
+                                label={{ value: 'ROI (%)', angle: -90, position: 'insideLeft' }}
+                              />
+                              <Tooltip 
+                                labelFormatter={(value) => `${value}`}
+                                formatter={(value, name) => [
+                                  `${value}%`, 
+                                  name === 'planned' ? '予定ROI' : '実績ROI'
+                                ]}
+                              />
+                              <Line 
+                                type="monotone" 
+                                dataKey="planned" 
+                                stroke="#3b82f6" 
+                                strokeWidth={2}
+                                strokeDasharray="5 5"
+                                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                                name="planned"
+                              />
+                              <Line 
+                                type="monotone" 
+                                dataKey="actual" 
+                                stroke={project.actualROI >= project.plannedROI * 0.9 ? '#10b981' : '#ef4444'}
+                                strokeWidth={3}
+                                dot={{ 
+                                  fill: project.actualROI >= project.plannedROI * 0.9 ? '#10b981' : '#ef4444',
+                                  strokeWidth: 2, 
+                                  r: 5 
+                                }}
+                                name="actual"
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+
+                      {/* 戦略整合性指標 */}
                       <div className="grid grid-cols-3 gap-4">
                         <div>
                           <div className="text-xs text-gray-600 mb-1">戦略整合率</div>
