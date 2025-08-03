@@ -16,7 +16,8 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import ProjectTimeline from '../components/ProjectTimeline.js';
-import type { ProjectSchedule } from '../components/ProjectTimeline.js';
+import ResourceMatrix from '../components/ResourceMatrix.js';
+import type { ProjectSchedule, Milestone, ScheduleDependency } from '../components/ProjectTimeline.js';
 import Modal from '../components/Modal.js';
 
 const PfMPage: React.FC = () => {
@@ -321,6 +322,88 @@ interface ProjectGateProgress {
         { name: 'リリース～初期流動', start: '2026-08', end: '2026-09' },
       ],
     },
+  ];
+
+  // リソース計画モック
+  const resourcePlans = [
+    {
+      project: 'AI・データ活用基盤',
+      phaseResources: {
+        'システム企画': { user: 2, vendor: 1 },
+        '要件定義': { user: 3, vendor: 2 },
+        '設計': { user: 2, vendor: 4 },
+        '開発・単体テスト': { user: 1, vendor: 8 },
+        '結合テスト': { user: 2, vendor: 6 },
+        '総合テスト': { user: 2, vendor: 4 },
+        'UAT': { user: 4, vendor: 2 },
+        'リリース～初期流動': { user: 2, vendor: 1 }
+      }
+    },
+    {
+      project: 'クラウド移行PJ',
+      phaseResources: {
+        'システム企画': { user: 1, vendor: 1 },
+        '要件定義': { user: 2, vendor: 2 },
+        '設計': { user: 2, vendor: 3 },
+        '開発・単体テスト': { user: 1, vendor: 6 },
+        '結合テスト': { user: 1, vendor: 4 },
+        '総合テスト': { user: 2, vendor: 3 },
+        'UAT': { user: 3, vendor: 2 },
+        'リリース～初期流動': { user: 1, vendor: 1 }
+      }
+    },
+    {
+      project: '新基幹システム刷新',
+      phaseResources: {
+        'システム企画': { user: 3, vendor: 2 },
+        '要件定義': { user: 4, vendor: 3 },
+        '設計': { user: 3, vendor: 5 },
+        '開発・単体テスト': { user: 2, vendor: 10 },
+        '結合テスト': { user: 2, vendor: 8 },
+        '総合テスト': { user: 3, vendor: 6 },
+        'UAT': { user: 5, vendor: 3 },
+        'リリース～初期流動': { user: 2, vendor: 2 }
+      }
+    },
+    {
+      project: 'セキュリティ強化PJ',
+      phaseResources: {
+        'システム企画': { user: 1, vendor: 1 },
+        '要件定義': { user: 2, vendor: 1 },
+        '設計': { user: 2, vendor: 2 },
+        '開発・単体テスト': { user: 1, vendor: 5 },
+        '結合テスト': { user: 1, vendor: 3 },
+        '総合テスト': { user: 2, vendor: 4 },
+        'UAT': { user: 3, vendor: 2 },
+        'リリース～初期流動': { user: 1, vendor: 1 }
+      }
+    },
+    {
+      project: 'モバイルアプリ開発',
+      phaseResources: {
+        'システム企画': { user: 2, vendor: 1 },
+        '要件定義': { user: 2, vendor: 2 },
+        '設計': { user: 2, vendor: 3 },
+        '開発・単体テスト': { user: 1, vendor: 6 },
+        '結合テスト': { user: 1, vendor: 4 },
+        '総合テスト': { user: 2, vendor: 3 },
+        'UAT': { user: 3, vendor: 2 },
+        'リリース～初期流動': { user: 1, vendor: 1 }
+      }
+    }
+  ];
+
+  // マイルストーンとクリティカルパス
+  const timelineMilestones: Milestone[] = [
+    { id: 'm1', date: '2025-08', name: '予算承認', impacts: [{ project: 'AI・データ活用基盤', phase: '要件定義' }] },
+    { id: 'm2', date: '2025-12', name: 'アーキテクチャ確定', impacts: [{ project: 'クラウド移行PJ', phase: '設計' }] },
+    { id: 'm3', date: '2026-06', name: 'システム統合判定', impacts: [{ project: '新基幹システム刷新', phase: '総合テスト' }] }
+  ];
+
+  const timelineDeps: ScheduleDependency[] = [
+    { fromProject: 'AI・データ活用基盤', fromPhase: '結合テスト', toProject: 'モバイルアプリ開発', toPhase: '総合テスト', description: '分析API連携', critical: true },
+    { fromProject: 'クラウド移行PJ', fromPhase: '総合テスト', toProject: 'セキュリティ強化PJ', toPhase: 'UAT', description: 'インフラ共有', critical: true },
+    { fromProject: '新基幹システム刷新', fromPhase: 'UAT', toProject: 'モバイルアプリ開発', toPhase: 'リリース～初期流動', description: 'データAPI提供', critical: false }
   ];
 
   return (
@@ -676,7 +759,11 @@ interface ProjectGateProgress {
                   <Calendar className="w-5 h-5 mr-2 text-green-600" />
                   プロジェクトスケジュール（2025-2026）
                 </h3>
-                <ProjectTimeline schedules={projectSchedules} />
+                <ProjectTimeline 
+                  schedules={projectSchedules} 
+                  milestones={timelineMilestones}
+                  dependencies={timelineDeps} 
+                />
               </div>
 
               {/* リソースコンフリクト */}
@@ -932,6 +1019,15 @@ interface ProjectGateProgress {
                     </motion.div>
                   ))}
                 </div>
+              </div>
+
+              {/* プロジェクト別リソース計画 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Users className="w-5 h-5 mr-2 text-purple-600" />
+                  プロジェクト別リソース計画（人月）
+                </h3>
+                <ResourceMatrix plans={resourcePlans} />
               </div>
 
               {/* 予算配分効率 */}
