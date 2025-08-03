@@ -54,10 +54,64 @@ const PfMPage: React.FC = () => {
       title: 'プロジェクト間関係の整理（横の整合）',
       subtitle: '目標達成による効果最大化',
       dependencies: [
-        { from: 'AI・データ活用基盤', to: '新基幹システム刷新', type: 'データ連携', priority: 'high', status: 'active' },
-        { from: 'クラウド移行PJ', to: 'セキュリティ強化PJ', type: 'インフラ共有', priority: 'high', status: 'active' },
-        { from: '新基幹システム刷新', to: 'モバイルアプリ開発', type: 'API提供', priority: 'medium', status: 'planned' },
-        { from: 'AI・データ活用基盤', to: 'モバイルアプリ開発', type: '分析機能', priority: 'medium', status: 'planned' }
+        { from: 'AI・データ活用基盤', to: '新基幹システム刷新', type: 'データ連携', priority: 'high', status: 'active', impact: '高', risk: 'medium' },
+        { from: 'クラウド移行PJ', to: 'セキュリティ強化PJ', type: 'インフラ共有', priority: 'high', status: 'active', impact: '高', risk: 'low' },
+        { from: '新基幹システム刷新', to: 'モバイルアプリ開発', type: 'API提供', priority: 'medium', status: 'planned', impact: '中', risk: 'medium' },
+        { from: 'AI・データ活用基盤', to: 'モバイルアプリ開発', type: '分析機能', priority: 'medium', status: 'planned', impact: '中', risk: 'low' }
+      ],
+      resourceConflicts: [
+        { resource: 'データサイエンティスト', conflictProjects: ['AI・データ活用基盤', 'モバイルアプリ開発'], resolution: 'スキル共有・ローテーション' },
+        { resource: 'セキュリティエンジニア', conflictProjects: ['クラウド移行PJ', 'セキュリティ強化PJ'], resolution: '段階的配分・優先順位調整' }
+      ]
+    },
+    stageGate: {
+      title: 'ステージゲート管理',
+      subtitle: '効率運営・意思決定迅速化',
+      gates: [
+        { id: 'gate-001', project: 'AI・データ活用基盤', phase: 'POC完了', dueDate: '2025-08-15', status: 'ready', decision: 'pending', criteria: ['技術検証完了', 'ROI算出', 'リスク評価'] },
+        { id: 'gate-002', project: 'クラウド移行PJ', phase: '移行計画承認', dueDate: '2025-08-10', status: 'in-review', decision: 'approved', criteria: ['移行戦略確定', 'コスト承認', 'リスク対策'] },
+        { id: 'gate-003', project: '新基幹システム刷新', phase: '要件定義完了', dueDate: '2025-08-20', status: 'pending', decision: 'pending', criteria: ['業務要件確定', 'システム仕様', '予算承認'] }
+      ],
+      escalations: [
+        { issue: 'AI・データ活用基盤のROI未達', level: 'critical', assignee: 'CTO', deadline: '2025-08-12' },
+        { issue: 'クラウド移行の予算超過リスク', level: 'high', assignee: 'CFO', deadline: '2025-08-08' }
+      ]
+    },
+    resourceOptimization: {
+      title: 'リソース配分最適化',
+      subtitle: '人材・予算・スキルの戦略的配分',
+      resources: [
+        { type: 'エンジニア', total: 45, allocated: 42, utilization: 93, skills: ['Java', 'Python', 'React', 'AWS'] },
+        { type: 'データサイエンティスト', total: 8, allocated: 8, utilization: 100, skills: ['ML', 'SQL', 'Python', 'Tableau'] },
+        { type: 'プロジェクトマネージャー', total: 12, allocated: 10, utilization: 83, skills: ['PMP', 'Agile', 'リーダーシップ'] },
+        { type: 'セキュリティエンジニア', total: 6, allocated: 6, utilization: 100, skills: ['セキュリティ', 'ネットワーク', 'クラウド'] }
+      ],
+      budgetAllocation: [
+        { project: 'AI・データ活用基盤', budget: 1200, spent: 380, remaining: 820, efficiency: 92 },
+        { project: 'クラウド移行PJ', budget: 850, spent: 630, remaining: 220, efficiency: 98 },
+        { project: '新基幹システム刷新', budget: 1500, spent: 450, remaining: 1050, efficiency: 87 },
+        { project: 'セキュリティ強化PJ', budget: 400, spent: 180, remaining: 220, efficiency: 95 },
+        { project: 'モバイルアプリ開発', budget: 600, spent: 120, remaining: 480, efficiency: 89 }
+      ]
+    },
+    knowledgeLearning: {
+      title: 'ナレッジ・組織学習',
+      subtitle: '効率運営と組織成長の実現',
+      bestPractices: [
+        { id: 'bp-001', title: 'クラウド移行時のダウンタイム最小化手法', project: 'クラウド移行PJ', impact: 'high', applicability: ['新基幹システム刷新', 'モバイルアプリ開発'] },
+        { id: 'bp-002', title: 'アジャイル開発での品質確保プロセス', project: 'AI・データ活用基盤', impact: 'medium', applicability: ['モバイルアプリ開発', 'セキュリティ強化PJ'] },
+        { id: 'bp-003', title: 'データ統合における性能最適化', project: '新基幹システム刷新', impact: 'high', applicability: ['AI・データ活用基盤'] }
+      ],
+      lessonsLearned: [
+        { id: 'll-001', title: '過去のERP導入での予算超過要因分析', risk: 'budget', prevention: '段階的導入とマイルストーン管理強化', projects: ['新基幹システム刷新'] },
+        { id: 'll-002', title: 'セキュリティ要件の後付け追加コスト', risk: 'security', prevention: '初期段階でのセキュリティ要件定義', projects: ['すべて'] },
+        { id: 'll-003', title: 'ユーザー受け入れテスト期間の不足', risk: 'schedule', prevention: 'UAT期間の十分な確保と並行テスト', projects: ['新基幹システム刷新', 'モバイルアプリ開発'] }
+      ],
+      metrics: [
+        { name: 'ナレッジ共有率', current: 79, target: 85, unit: '%' },
+        { name: '教訓活用率', current: 86, target: 80, unit: '%' },
+        { name: '組織学習指数', current: 91, target: 85, unit: 'pt' },
+        { name: 'ベストプラクティス活用数', current: 23, target: 20, unit: '件' }
       ]
     }
   };
@@ -605,6 +659,452 @@ const PfMPage: React.FC = () => {
                   <p>• AI・データ活用基盤の予算超過リスク（15%増加の可能性）</p>
                   <p>• クラウド移行によるセキュリティ要件の再評価が必要</p>
                   <p>• 新基幹システムのテスト工程で2週間の遅延が発生</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* プロジェクト間関係タブ */}
+          {activeTab === 'project-dependencies' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-4">
+                  <GitBranch className="w-6 h-6 mr-3 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">{pgmoMetrics.projectDependencies.title}</h2>
+                    <p className="text-gray-600">{pgmoMetrics.projectDependencies.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 依存関係マップ */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Network className="w-5 h-5 mr-2 text-blue-600" />
+                  プロジェクト間依存関係マップ
+                </h3>
+                <div className="grid grid-cols-2 gap-6">
+                  {pgmoMetrics.projectDependencies.dependencies.map((dep, index) => (
+                    <motion.div
+                      key={`${dep.from}-${dep.to}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border border-gray-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          dep.priority === 'high' ? 'bg-red-100 text-red-800' :
+                          dep.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-green-100 text-green-800'
+                        }`}>
+                          {dep.priority === 'high' ? 'High' : dep.priority === 'medium' ? 'Medium' : 'Low'} Priority
+                        </div>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          dep.status === 'active' ? 'bg-green-100 text-green-800' :
+                          dep.status === 'planned' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {dep.status === 'active' ? 'Active' : dep.status === 'planned' ? 'Planned' : 'Completed'}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-gray-900 mb-1">{dep.from}</div>
+                        <div className="flex items-center justify-center mb-1">
+                          <div className="w-8 h-px bg-blue-500"></div>
+                          <div className="mx-2 text-xs text-blue-600">{dep.type}</div>
+                          <div className="w-8 h-px bg-blue-500"></div>
+                        </div>
+                        <div className="text-sm font-medium text-gray-900">{dep.to}</div>
+                      </div>
+                      <div className="mt-3 text-xs text-gray-600 text-center">
+                        インパクト: <span className="font-medium">{dep.impact}</span> | 
+                        リスク: <span className="font-medium">{dep.risk}</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* リソースコンフリクト */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <AlertTriangle className="w-5 h-5 mr-2 text-yellow-600" />
+                  リソースコンフリクト管理
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.projectDependencies.resourceConflicts.map((conflict, index) => (
+                    <motion.div
+                      key={conflict.resource}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="bg-yellow-50 border border-yellow-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-gray-900">{conflict.resource}</h4>
+                        <div className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+                          Conflict
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600 mb-2">
+                        競合プロジェクト: {conflict.conflictProjects.join(', ')}
+                      </div>
+                      <div className="text-sm text-gray-900">
+                        <strong>解決策:</strong> {conflict.resolution}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ステージゲート管理タブ */}
+          {activeTab === 'stagegate' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-4">
+                  <FileCheck className="w-6 h-6 mr-3 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">{pgmoMetrics.stageGate.title}</h2>
+                    <p className="text-gray-600">{pgmoMetrics.stageGate.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ステージゲート一覧 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                  ステージゲート判定状況
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.stageGate.gates.map((gate, index) => (
+                    <motion.div
+                      key={gate.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border border-gray-200 rounded-lg p-5"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="font-medium text-gray-900">{gate.project}</h4>
+                          <p className="text-sm text-gray-600">{gate.phase}</p>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            gate.status === 'ready' ? 'bg-green-100 text-green-800' :
+                            gate.status === 'in-review' ? 'bg-blue-100 text-blue-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {gate.status === 'ready' ? 'Ready' : gate.status === 'in-review' ? 'In Review' : 'Pending'}
+                          </div>
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            gate.decision === 'approved' ? 'bg-green-100 text-green-800' :
+                            gate.decision === 'rejected' ? 'bg-red-100 text-red-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {gate.decision === 'approved' ? 'Approved' : gate.decision === 'rejected' ? 'Rejected' : 'Pending'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600 mb-3">
+                        期限: <span className="font-medium">{gate.dueDate}</span>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-gray-900 mb-2">判定基準:</div>
+                        <div className="flex flex-wrap gap-2">
+                          {gate.criteria.map((criterion, idx) => (
+                            <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                              {criterion}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* エスカレーション管理 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <AlertTriangle className="w-5 h-5 mr-2 text-red-600" />
+                  エスカレーション管理
+                </h3>
+                <div className="space-y-3">
+                  {pgmoMetrics.stageGate.escalations.map((escalation, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className={`border-l-4 p-4 rounded-r-lg ${
+                        escalation.level === 'critical' ? 'bg-red-50 border-red-500' :
+                        escalation.level === 'high' ? 'bg-orange-50 border-orange-500' :
+                        'bg-yellow-50 border-yellow-500'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-gray-900">{escalation.issue}</div>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          escalation.level === 'critical' ? 'bg-red-100 text-red-800' :
+                          escalation.level === 'high' ? 'bg-orange-100 text-orange-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {escalation.level === 'critical' ? 'Critical' : escalation.level === 'high' ? 'High' : 'Medium'}
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        担当: <span className="font-medium">{escalation.assignee}</span> | 
+                        期限: <span className="font-medium">{escalation.deadline}</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* リソース配分最適化タブ */}
+          {activeTab === 'resource-optimization' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-4">
+                  <Users className="w-6 h-6 mr-3 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">{pgmoMetrics.resourceOptimization.title}</h2>
+                    <p className="text-gray-600">{pgmoMetrics.resourceOptimization.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* リソース稼働状況 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                  リソース稼働状況
+                </h3>
+                <div className="grid grid-cols-2 gap-6">
+                  {pgmoMetrics.resourceOptimization.resources.map((resource, index) => (
+                    <motion.div
+                      key={resource.type}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border border-gray-200 rounded-lg p-5"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">{resource.type}</h4>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          resource.utilization >= 95 ? 'bg-red-100 text-red-800' :
+                          resource.utilization >= 85 ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-green-100 text-green-800'
+                        }`}>
+                          {resource.utilization}%
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600 mb-3">
+                        配置: {resource.allocated}/{resource.total}名
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                        <div 
+                          className={`h-2 rounded-full ${
+                            resource.utilization >= 95 ? 'bg-red-500' :
+                            resource.utilization >= 85 ? 'bg-yellow-500' :
+                            'bg-green-500'
+                          }`}
+                          style={{ width: `${resource.utilization}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        <strong>スキル:</strong> {resource.skills.join(', ')}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 予算配分効率 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <DollarSign className="w-5 h-5 mr-2 text-green-600" />
+                  予算配分効率
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.resourceOptimization.budgetAllocation.map((budget, index) => (
+                    <motion.div
+                      key={budget.project}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="border border-gray-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">{budget.project}</h4>
+                        <div className="flex items-center space-x-4 text-sm">
+                          <span className="text-gray-600">予算: ¥{budget.budget}M</span>
+                          <span className="text-gray-600">消化: ¥{budget.spent}M</span>
+                          <span className="text-green-600 font-medium">効率: {budget.efficiency}%</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="flex-1 bg-gray-200 rounded-full h-3 mr-4">
+                          <div 
+                            className="bg-blue-500 h-3 rounded-full"
+                            style={{ width: `${(budget.spent / budget.budget) * 100}%` }}
+                          />
+                        </div>
+                        <div className="text-sm text-gray-600 min-w-0">
+                          残り: ¥{budget.remaining}M
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ナレッジ・組織学習タブ */}
+          {activeTab === 'knowledge-learning' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-4">
+                  <Brain className="w-6 h-6 mr-3 text-blue-600" />
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">{pgmoMetrics.knowledgeLearning.title}</h2>
+                    <p className="text-gray-600">{pgmoMetrics.knowledgeLearning.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ナレッジ共有KPI */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {pgmoMetrics.knowledgeLearning.metrics.map((metric, index) => (
+                  <motion.div
+                    key={metric.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-white border border-gray-200 rounded-lg p-4"
+                  >
+                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                      {metric.current}{metric.unit}
+                    </div>
+                    <div className="text-sm font-medium text-gray-900 mb-1">
+                      {metric.name}
+                    </div>
+                    <div className="text-xs text-gray-500">目標: {metric.target}{metric.unit}</div>
+                    <div className="mt-2">
+                      <div className="w-full bg-gray-200 rounded-full h-1.5">
+                        <div 
+                          className={`h-1.5 rounded-full ${
+                            metric.current >= metric.target ? 'bg-green-500' : 'bg-yellow-500'
+                          }`}
+                          style={{ width: `${Math.min(100, (metric.current / metric.target) * 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* ベストプラクティス */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Award className="w-5 h-5 mr-2 text-blue-600" />
+                  ベストプラクティス共有
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.knowledgeLearning.bestPractices.map((practice, index) => (
+                    <motion.div
+                      key={practice.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="bg-green-50 border border-green-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-gray-900">{practice.title}</h4>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          practice.impact === 'high' ? 'bg-green-100 text-green-800' :
+                          practice.impact === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {practice.impact === 'high' ? 'High Impact' : practice.impact === 'medium' ? 'Medium Impact' : 'Low Impact'}
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-600 mb-2">
+                        発信元: <span className="font-medium">{practice.project}</span>
+                      </div>
+                      <div className="text-sm text-gray-900">
+                        <strong>適用可能:</strong> {practice.applicability.join(', ')}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 教訓・学習事項 */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <BookOpen className="w-5 h-5 mr-2 text-orange-600" />
+                  教訓・学習事項
+                </h3>
+                <div className="space-y-4">
+                  {pgmoMetrics.knowledgeLearning.lessonsLearned.map((lesson, index) => (
+                    <motion.div
+                      key={lesson.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className={`border-l-4 p-4 rounded-r-lg ${
+                        lesson.risk === 'budget' ? 'bg-red-50 border-red-500' :
+                        lesson.risk === 'security' ? 'bg-orange-50 border-orange-500' :
+                        'bg-yellow-50 border-yellow-500'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-gray-900">{lesson.title}</h4>
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          lesson.risk === 'budget' ? 'bg-red-100 text-red-800' :
+                          lesson.risk === 'security' ? 'bg-orange-100 text-orange-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {lesson.risk === 'budget' ? 'Budget Risk' : lesson.risk === 'security' ? 'Security Risk' : 'Schedule Risk'}
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-900 mb-2">
+                        <strong>予防策:</strong> {lesson.prevention}
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        適用プロジェクト: {lesson.projects.join(', ')}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </motion.div>
