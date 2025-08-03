@@ -9,7 +9,8 @@ import {
   Pause,
   Eye,
   ArrowRightLeft,
-  Flag
+  Flag,
+  Bot
 } from 'lucide-react';
 import { crossProjectCoordinations } from '../data/mockData.js';
 import Modal from './Modal.js';
@@ -289,6 +290,38 @@ const CrossProjectCoordinationSection: React.FC = () => {
                   </>
                 )}
               </ul>
+            </div>
+
+            {/* AIエージェント調整ログ */}
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+              <h3 className="font-medium text-purple-900 mb-3 flex items-center">
+                <Bot className="w-4 h-4 mr-2" />
+                AIエージェント調整ログ
+              </h3>
+              <div className="space-y-3">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex items-start space-x-2"
+                >
+                  <Bot className="w-4 h-4 text-purple-600 mt-1" />
+                  <div className="bg-purple-100 px-3 py-2 rounded-lg shadow text-sm text-purple-800 max-w-xs">
+                    {selectedCoordination.fromProject}から{selectedCoordination.toProject}への調整依頼を受信。優先度{getPriorityText(selectedCoordination.priority)}で連携を提案します。
+                  </div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="flex items-start space-x-2 justify-end"
+                >
+                  <div className="bg-cyan-100 px-3 py-2 rounded-lg shadow text-sm text-cyan-800 max-w-xs">
+                    了承しました。{selectedCoordination.toProject}にてスケジュールを調整し、{new Date(selectedCoordination.dueDate).toLocaleDateString('ja-JP')}までに対応します。
+                  </div>
+                  <ArrowRightLeft className="w-4 h-4 text-cyan-600 mt-1" />
+                </motion.div>
+              </div>
             </div>
           </div>
         </Modal>

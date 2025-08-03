@@ -15,7 +15,8 @@ import {
   Monitor,
   Server,
   Settings,
-  Wrench
+  Wrench,
+  Bot
 } from 'lucide-react';
 import { teamCoordinations, projects } from '../data/mockData.js';
 import Modal from './Modal.js';
@@ -413,6 +414,38 @@ const TeamCoordinationSection: React.FC = () => {
                     <li>• 品質担保とテスト実施</li>
                   </ul>
                 </div>
+              </div>
+            </div>
+
+            {/* AIエージェント調整ログ */}
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+              <h3 className="font-medium text-purple-900 mb-3 flex items-center">
+                <Bot className="w-4 h-4 mr-2" />
+                AIエージェント調整ログ
+              </h3>
+              <div className="space-y-3">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex items-start space-x-2"
+                >
+                  <Bot className="w-4 h-4 text-purple-600 mt-1" />
+                  <div className="bg-purple-100 px-3 py-2 rounded-lg shadow text-sm text-purple-800 max-w-xs">
+                    依頼内容を確認しました。{getTeamLabel(selectedCoordination.toTeam)}チームへ優先度{getPriorityText(selectedCoordination.priority)}で調整を提案します。
+                  </div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="flex items-start space-x-2 justify-end"
+                >
+                  <div className="bg-emerald-100 px-3 py-2 rounded-lg shadow text-sm text-emerald-800 max-w-xs">
+                    ありがとうございます。内容を確認し、{new Date(selectedCoordination.dueDate).toLocaleDateString('ja-JP')}までに対応します。
+                  </div>
+                  <Users className="w-4 h-4 text-emerald-600 mt-1" />
+                </motion.div>
               </div>
             </div>
           </div>

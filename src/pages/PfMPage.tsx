@@ -15,10 +15,13 @@ import {
   DollarSign
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import Modal from '../components/Modal.js';
 
 const PfMPage: React.FC = () => {
   // タブ管理 - PgMOの5つの実現目標に基づく構成
   const [activeTab, setActiveTab] = useState<'strategic-alignment' | 'project-dependencies' | 'stagegate' | 'resource-optimization' | 'knowledge-learning'>('strategic-alignment');
+  // ゲート詳細モーダル用
+  const [selectedGate, setSelectedGate] = useState<any>(null);
 
   // PgMOの5つの実現目標データ
   const pgmoMetrics = {
@@ -199,6 +202,55 @@ const PfMPage: React.FC = () => {
       ]
     }
   };
+
+  // ゲートフェーズ共通定義
+interface ProjectGateProgress {
+  project: string;
+  currentPhase: string;
+  issues: Record<string, string[]>;
+}
+  const gatePhases = ['システム企画','要件定義','設計','開発・単体テスト','結合テスト','総合テスト','UAT','リリース～初期流動'];
+
+  // 各プロジェクトのゲート進捗と指摘事項（モック）
+  const projectsGateProgress: ProjectGateProgress[] = [
+    {
+      project: 'AI・データ活用基盤',
+      currentPhase: '開発・単体テスト',
+      issues: {
+        '要件定義': ['非機能要件の曖昧さ'],
+        '開発・単体テスト': ['テストケース不足', 'コード品質のばらつき']
+      }
+    },
+    {
+      project: 'クラウド移行PJ',
+      currentPhase: '結合テスト',
+      issues: {
+        '設計': ['冗長構成に関するコスト超過指摘'],
+        '結合テスト': ['パフォーマンス劣化が閾値超過']
+      }
+    },
+    {
+      project: '新基幹システム刷新',
+      currentPhase: '要件定義',
+      issues: {
+        '要件定義': ['部門間で要件優先度が未合意']
+      }
+    },
+    {
+      project: 'セキュリティ強化PJ',
+      currentPhase: '総合テスト',
+      issues: {
+        '総合テスト': ['脆弱性スキャンの再検出項目あり']
+      }
+    },
+    {
+      project: 'モバイルアプリ開発',
+      currentPhase: '設計',
+      issues: {
+        '設計': ['UI ガイドラインの最新化が未反映']
+      }
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-24">
@@ -654,6 +706,50 @@ const PfMPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* ゲート進捗タイムライン */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-green-600" />
+                  ゲート進捗タイムライン
+                </h3>
+                <div className="space-y-6 overflow-x-auto">
+                  {projectsGateProgress.map((proj, idx) => (
+                    <motion.div
+                      key={proj.project}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="min-w-max"
+                    >
+                      <div className="mb-2 font-medium text-gray-900 flex items-center">
+                        <GitBranch className="w-4 h-4 mr-1 text-cyan-600" />
+                        {proj.project}
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        {gatePhases.map((phase) => {
+                          const phaseStatus = gatePhases.indexOf(phase) < gatePhases.indexOf(proj.currentPhase) ? 'done' :
+                                             gatePhases.indexOf(phase) === gatePhases.indexOf(proj.currentPhase) ? 'in' : 'pending';
+                          const hasIssues = proj.issues[phase] && proj.issues[phase].length > 0;
+                          return (
+                            <button
+                              key={phase}
+                              onClick={() => setSelectedGate({ project: proj.project, phaseName: phase, issues: proj.issues[phase] || [] })}
+                              className={`px-2 py-1 rounded text-xs font-medium focus:outline-none transition-all border ${
+                                phaseStatus === 'done' ? 'bg-emerald-600 text-white border-emerald-600' :
+                                phaseStatus === 'in' ? 'bg-yellow-500 text-white border-yellow-500 animate-pulse' : 'bg-gray-200 text-gray-600 border-gray-300'
+                              } ${hasIssues ? 'ring-2 ring-red-400' : ''}`}
+                              title={`${phase}${hasIssues ? ' - 指摘あり' : ''}`}
+                            >
+                              {phase}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
               {/* エスカレーション管理 */}
               <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
@@ -927,7 +1023,24 @@ const PfMPage: React.FC = () => {
           )}
 
         </div>
-      </main>
+            {selectedGate && (
+        <Modal
+          isOpen={!!selectedGate}
+          onClose={() => setSelectedGate(null)}
+          title={`${selectedGate.project} - ${selectedGate.phaseName} の指摘事項`}
+        >
+          <div className="space-y-2">
+            {selectedGate.issues.length > 0 ? (
+              selectedGate.issues.map((iss: string, idx: number) => (
+                <p key={idx} className="text-sm text-gray-700">• {iss}</p>
+              ))
+            ) : (
+              <p className="text-sm text-gray-500">指摘事項はありません。</p>
+            )}
+          </div>
+        </Modal>
+      )}
+    </main>
     </div>
   );
 };
