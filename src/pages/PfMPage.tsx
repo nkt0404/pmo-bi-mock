@@ -15,6 +15,8 @@ import {
   DollarSign
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import ProjectTimeline from '../components/ProjectTimeline.js';
+import type { ProjectSchedule } from '../components/ProjectTimeline.js';
 import Modal from '../components/Modal.js';
 
 const PfMPage: React.FC = () => {
@@ -250,6 +252,75 @@ interface ProjectGateProgress {
         '設計': ['UI ガイドラインの最新化が未反映']
       }
     }
+  ];
+
+  // ガント用スケジュール（矢羽根表示）
+  const projectSchedules: ProjectSchedule[] = [
+    {
+      project: 'AI・データ活用基盤',
+      phases: [
+        { name: 'システム企画', start: '2025-01', end: '2025-02' },
+        { name: '要件定義', start: '2025-03', end: '2025-04' },
+        { name: '設計', start: '2025-05', end: '2025-06' },
+        { name: '開発・単体テスト', start: '2025-07', end: '2025-11', critical: true },
+        { name: '結合テスト', start: '2025-12', end: '2026-02', critical: true },
+        { name: '総合テスト', start: '2026-03', end: '2026-04' },
+        { name: 'UAT', start: '2026-05', end: '2026-06' },
+        { name: 'リリース～初期流動', start: '2026-07', end: '2026-08' },
+      ],
+    },
+    {
+      project: 'クラウド移行PJ',
+      phases: [
+        { name: 'システム企画', start: '2025-02', end: '2025-03' },
+        { name: '要件定義', start: '2025-04', end: '2025-05' },
+        { name: '設計', start: '2025-06', end: '2025-07' },
+        { name: '開発・単体テスト', start: '2025-08', end: '2025-10' },
+        { name: '結合テスト', start: '2025-11', end: '2026-01' },
+        { name: '総合テスト', start: '2026-02', end: '2026-03', critical: true },
+        { name: 'UAT', start: '2026-04', end: '2026-05' },
+        { name: 'リリース～初期流動', start: '2026-06', end: '2026-07' },
+      ],
+    },
+    {
+      project: '新基幹システム刷新',
+      phases: [
+        { name: 'システム企画', start: '2025-01', end: '2025-03' },
+        { name: '要件定義', start: '2025-04', end: '2025-06', critical: true },
+        { name: '設計', start: '2025-07', end: '2025-09' },
+        { name: '開発・単体テスト', start: '2025-10', end: '2026-03' },
+        { name: '結合テスト', start: '2026-04', end: '2026-06' },
+        { name: '総合テスト', start: '2026-07', end: '2026-08' },
+        { name: 'UAT', start: '2026-09', end: '2026-10', critical: true },
+        { name: 'リリース～初期流動', start: '2026-11', end: '2026-12' },
+      ],
+    },
+    {
+      project: 'セキュリティ強化PJ',
+      phases: [
+        { name: 'システム企画', start: '2025-03', end: '2025-04' },
+        { name: '要件定義', start: '2025-05', end: '2025-06' },
+        { name: '設計', start: '2025-07', end: '2025-08' },
+        { name: '開発・単体テスト', start: '2025-09', end: '2025-11', critical: true },
+        { name: '結合テスト', start: '2025-12', end: '2026-01' },
+        { name: '総合テスト', start: '2026-02', end: '2026-03' },
+        { name: 'UAT', start: '2026-04', end: '2026-05' },
+        { name: 'リリース～初期流動', start: '2026-06', end: '2026-07' },
+      ],
+    },
+    {
+      project: 'モバイルアプリ開発',
+      phases: [
+        { name: 'システム企画', start: '2025-04', end: '2025-05' },
+        { name: '要件定義', start: '2025-06', end: '2025-07' },
+        { name: '設計', start: '2025-08', end: '2025-09' },
+        { name: '開発・単体テスト', start: '2025-10', end: '2026-01' },
+        { name: '結合テスト', start: '2026-02', end: '2026-03' },
+        { name: '総合テスト', start: '2026-04', end: '2026-05' },
+        { name: 'UAT', start: '2026-06', end: '2026-07', critical: true },
+        { name: 'リリース～初期流動', start: '2026-08', end: '2026-09' },
+      ],
+    },
   ];
 
   return (
@@ -597,6 +668,15 @@ interface ProjectGateProgress {
                     </motion.div>
                   ))}
                 </div>
+              </div>
+
+              {/* プロジェクトスケジュール（矢羽根） */}
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <Calendar className="w-5 h-5 mr-2 text-green-600" />
+                  プロジェクトスケジュール（2025-2026）
+                </h3>
+                <ProjectTimeline schedules={projectSchedules} />
               </div>
 
               {/* リソースコンフリクト */}
