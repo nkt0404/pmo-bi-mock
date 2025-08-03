@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    background-color: #f4f5f7;
+    color: #42526e;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-lg border border-neutral-200 overflow-hidden;
+    box-shadow: 0 1px 3px rgba(9, 30, 66, 0.25), 0 0 1px rgba(9, 30, 66, 0.31);
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(9, 30, 66, 0.25), 0 0 1px rgba(9, 30, 66, 0.31);
+  }
+  
+  .status-badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .status-on-track {
+    @apply bg-success-50 text-success-700 border border-success-200;
+  }
+  
+  .status-at-risk {
+    @apply bg-warning-50 text-warning-700 border border-warning-200;
+  }
+  
+  .status-delayed {
+    @apply bg-danger-50 text-danger-700 border border-danger-200;
+  }
+  
+  .priority-high {
+    @apply bg-danger-50 text-danger-700 border border-danger-200;
+  }
+  
+  .priority-medium {
+    @apply bg-warning-50 text-warning-700 border border-warning-200;
+  }
+  
+  .priority-low {
+    @apply bg-success-50 text-success-700 border border-success-200;
+  }
+
+  .line-clamp-2 {
+    @apply overflow-hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f4f5f7;
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c7d0;
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #8993a4;
+  }
+}
