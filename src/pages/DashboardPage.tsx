@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  RefreshCw, 
+  Bot, 
   Clock
 } from 'lucide-react';
 import WeeklyProgressSection from '../components/WeeklyProgressSection.js';
 import QualityKPISection from '../components/QualityKPISection.js';
 import CrossProjectCoordinationSection from '../components/CrossProjectCoordinationSection.js';
 import TeamCoordinationSection from '../components/TeamCoordinationSection.js';
-
+import AIAgentChat from '../components/AIAgentChat.js';
 
 const DashboardPage: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isAIAgentOpen, setIsAIAgentOpen] = useState(false);
 
   useEffect(() => {
     // 時刻の定期更新
@@ -89,7 +90,7 @@ const DashboardPage: React.FC = () => {
         </div>
       </main>
 
-      {/* リフレッシュボタン */}
+      {/* AIエージェントボタン */}
       <motion.div 
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -97,13 +98,21 @@ const DashboardPage: React.FC = () => {
         className="fixed bottom-6 right-6 z-50"
       >
         <motion.button
+          onClick={() => setIsAIAgentOpen(true)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-xl border-4 border-white/20 backdrop-blur-sm"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-4 rounded-full shadow-xl border-4 border-white/20 backdrop-blur-sm"
+          title="AIエージェントに相談"
         >
-          <RefreshCw className="w-5 h-5" />
+          <Bot className="w-5 h-5" />
         </motion.button>
       </motion.div>
+
+      {/* AIエージェントチャット */}
+      <AIAgentChat 
+        isOpen={isAIAgentOpen} 
+        onClose={() => setIsAIAgentOpen(false)} 
+      />
 
       {/* フッター情報 */}
       <motion.div 
