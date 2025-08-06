@@ -2,14 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { 
-  MessageCircle, 
   X, 
   Send, 
   Bot, 
   ChevronDown,
   Paperclip,
   AlertTriangle,
-  CheckCircle,
   Clock,
   Target
 } from 'lucide-react';
