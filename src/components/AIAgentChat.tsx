@@ -195,7 +195,7 @@ const AIAgentChat: React.FC<AIAgentChatProps> = ({ isOpen, onClose }) => {
                 <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-bold text-white text-lg">PM AI Agent</span>
+                <span className="font-bold text-white text-lg">PMO AI Agent</span>
                 <div className="text-blue-100 text-xs">意思決定サポート</div>
               </div>
             </div>
